@@ -1,0 +1,51 @@
+if len(recognized) != 0:
+			found = False
+			accettabili = []
+			index = 0
+			for saved in recognized:
+				result = featureext.match (crop_img,saved[0])
+				if(result[0] <= 25):
+					found = True
+					print(index)
+					accettabili.append([index, result,saved[1]-1,crop_img])
+					
+					#cv2.imshow(str(cropped), crop_img) #AA
+					#cv2.waitKey(0) #AA
+				index = index +1
+			if(found == False):
+				commonList.trovati = commonList.trovati + 1
+				#cv2.imwrite('prova'+str(commonList.trovati)+'.jpg', crop_img) #AA
+				commonList.recognized.append([crop_img,commonList.trovati,mess,commonList.tempo,"fine del video"])
+				mess = mess+str(commonList.trovati)+" - " + str(confidence)	
+				print('aggiunto!')
+				#str(commonList.recognized.index(crop_img))	
+			else:
+				max = 9999
+				bestRecognized = 0
+				for element in accettabili:
+					if element[1][1]<max:
+						max = element[1][1]
+						bestRecognized = element[0]
+						mainListfounded = element[2]
+						newimage = element[3]
+				commonList.recognized[mainListfounded][0] = newimage
+				commonList.recognized[mainListfounded][4] = commonList.tempo
+				mess = mess+str(commonList.recognized[mainListfounded][1])+" - " + str(confidence)
+				del recognized[bestRecognized]
+				
+				
+		else:	
+			commonList.trovati = commonList.trovati + 1
+			#cv2.imwrite('prova'+str(commonList.trovati)+'.jpg', crop_img)
+			commonList.recognized.append([crop_img,commonList.trovati,mess,commonList.tempo,"fine del video"])
+			print('aggiunto!')
+					
+
+!!!!IMPORTANTE!!!
+
+1) riuscire a far funzionare ed esportare la rimozione dello sfondo
+2) trattare il video alla massima velocità possibile tramite rimozione sfondo
+3) salvare il video
+4) utilizzare i rettangoli di yolo sul video con lo sfondo rimosso
+5) rimuovere le parti "nere" dal video originale
+6) oggetto ritagliato(?)

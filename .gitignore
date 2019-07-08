@@ -1,0 +1,9 @@
+venv/
+src/models/
+src/videos/
+src/ckpt/
+src/bin/
+doc/
+*.avi
+times.txt
+.idea
